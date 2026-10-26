@@ -1,0 +1,22 @@
+{
+  "name": "family-library",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "pb:serve": "pocketbase.exe serve --http=127.0.0.1:8090",
+    "pb:migrate": "pocketbase.exe migrate up",
+    "prod:serve": "npm run build && pocketbase.exe serve"
+  },
+  "dependencies": {
+    "@tweenjs/tween.js": "^25.0.0",
+    "pocketbase": "^0.25.1",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
