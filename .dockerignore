@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+pb_data
+dist
+pb_public
+.git
+.gitignore
+.gemini
+.system_generated
+scratch
+*.bat
+*.ps1
+pocketbase.exe
+pocketbase.zip
+*.log

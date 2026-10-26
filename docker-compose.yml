@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  family-library:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: family_library_app
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    volumes:
+      - pb_data:/pb_data
+    environment:
+      - TZ=UTC
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8090/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  pb_data:
+    name: family_library_data
