@@ -3,6 +3,7 @@ import { appState } from '../state.js';
 import { logout } from '../api/client.js';
 import { openBookModal } from './bookForm.js';
 import { showToast } from './toast.js';
+import { esc } from './utils.js';
 
 function getGenderPronoun(user) {
   if (user?.gender === 'f') return 'her';
@@ -44,24 +45,24 @@ export function renderNavBar() {
       <div class="family-member-wrapper" data-member-id="${member.id}">
         <button type="button" 
           class="family-avatar-btn ${isCurrentHouse ? 'active-visiting' : ''}" 
-          style="--member-color: ${memberColor};"
+          style="--member-color: ${esc(memberColor)};"
           data-btn-member-id="${member.id}"
-          title="${isCurrentHouse ? `Currently inside ${member.name}'s house` : `Click to view ${member.name}`}">
+          title="${isCurrentHouse ? `Currently inside ${esc(member.name)}'s house` : `Click to view ${esc(member.name)}`}">
           <span class="family-avatar-ring">
             ${emoji}
           </span>
-          <span class="family-avatar-name">${member.name}</span>
+          <span class="family-avatar-name">${esc(member.name)}</span>
           ${isCurrentHouse ? '<span class="family-badge-here">🏠 Here</span>' : '<span class="family-badge-car">🚗</span>'}
         </button>
 
         <!-- Dropdown / Popover Flyout -->
         <div class="family-popover-card" id="popover-${member.id}" style="display: none;">
           <div class="family-popover-header">
-            <div class="family-popover-avatar" style="background-color: ${memberColor};">
+            <div class="family-popover-avatar" style="background-color: ${esc(memberColor)};">
               ${emoji}
             </div>
             <div>
-              <div class="family-popover-name">${member.name}'s House</div>
+              <div class="family-popover-name">${esc(member.name)}'s House</div>
               <div class="family-popover-status">
                 ${isCurrentHouse ? '📍 You are inside this house' : '🏡 Neighborhood Residence'}
               </div>
@@ -70,7 +71,7 @@ export function renderNavBar() {
 
           <div class="family-popover-info">
             <span>House Color:</span>
-            <span class="family-popover-color-dot" style="background-color: ${memberColor};"></span>
+            <span class="family-popover-color-dot" style="background-color: ${esc(memberColor)};"></span>
           </div>
 
           <div class="family-popover-actions">
@@ -78,7 +79,7 @@ export function renderNavBar() {
               ? (appState.currentScene === 'INSIDE' 
                   ? `<button type="button" class="btn btn-secondary" disabled>Currently Inside House</button>`
                   : `<button type="button" class="btn btn-primary enter-house-btn" data-enter-member-id="${member.id}">
-                       🚪 Enter ${member.name}'s House
+                       🚪 Enter ${esc(member.name)}'s House
                      </button>`
                 )
               : `<button type="button" class="btn btn-primary go-to-house-btn" data-go-member-id="${member.id}">
@@ -99,7 +100,7 @@ export function renderNavBar() {
         <div class="brand-icon">📚</div>
         <div>
           <div class="brand-title">${strings.app.title}</div>
-          <div class="brand-sub">${isOwner ? `Your Library Collection` : `Visiting ${currentHouseUser.name}'s Library`}</div>
+          <div class="brand-sub">${isOwner ? `Your Library Collection` : `Visiting ${esc(currentHouseUser.name)}'s Library`}</div>
         </div>
       </div>
 
@@ -116,8 +117,8 @@ export function renderNavBar() {
             + Add Book
           </button>
         ` : `
-          <div class="visitor-mode-pill" title="Visiting ${currentHouseUser.name}'s library in read-only mode">
-            👁️ Visiting ${currentHouseUser.name}
+          <div class="visitor-mode-pill" title="Visiting ${esc(currentHouseUser.name)}'s library in read-only mode">
+            👁️ Visiting ${esc(currentHouseUser.name)}
           </div>
         `}
 
@@ -127,11 +128,11 @@ export function renderNavBar() {
         </button>
 
         <!-- User profile badge -->
-        <div class="user-pill" title="Logged in as ${user.name}">
-          <div class="user-avatar" style="background-color: ${user.house_color || '#4f46e5'};">
+        <div class="user-pill" title="Logged in as ${esc(user.name)}">
+          <div class="user-avatar" style="background-color: ${esc(user.house_color || '#4f46e5')};">
             ${getAvatarEmoji(user)}
           </div>
-          <span class="user-name">${user.name || 'Owner'}</span>
+          <span class="user-name">${esc(user.name || 'Owner')}</span>
         </div>
 
         <!-- Sign Out Button -->

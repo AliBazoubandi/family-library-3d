@@ -1,3 +1,5 @@
+import { esc } from './utils.js';
+
 /**
  * Sleek Toast Notification System
  */
@@ -12,7 +14,7 @@ export function showToast(message, type = 'info', durationMs = 3500) {
   const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
   toast.innerHTML = `
     <span style="font-weight: 700; opacity: 0.9;">${icon}</span>
-    <span style="flex: 1;">${message}</span>
+    <span style="flex: 1;">${esc(message)}</span>
   `;
 
   root.appendChild(toast);

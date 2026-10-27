@@ -4,6 +4,7 @@ import { getBookCoverUrl, markBookLent, markBookReturned, deleteBook, moveBookTo
 import { openBookModal } from './bookForm.js';
 import { openShelfModal } from './shelfForm.js';
 import { showToast } from './toast.js';
+import { esc } from './utils.js';
 
 export function renderListView() {
   const container = document.getElementById('ui-overlay');
@@ -47,7 +48,7 @@ export function renderListView() {
   listRoot.innerHTML = `
     <div class="list-header">
       <div class="list-title-group">
-        <h2>${isOwner ? strings.listView.pageTitle : `${currentHouseUser.name}'s Library`}</h2>
+        <h2>${isOwner ? strings.listView.pageTitle : `${esc(currentHouseUser.name)}'s Library`}</h2>
         <p>${t(strings.listView.totalBooksCount, { count: filteredBooks.length })}</p>
       </div>
 
@@ -61,7 +62,7 @@ export function renderListView() {
           </button>
         ` : `
           <div class="visitor-mode-pill">
-            👁️ Viewing ${currentHouseUser.name}'s Collection (Read-only)
+            👁️ Viewing ${esc(currentHouseUser.name)}'s Collection (Read-only)
           </div>
         `}
         <button type="button" id="list-to-3d-btn" class="btn btn-secondary" style="border-color: rgba(99, 102, 241, 0.4);">
@@ -79,7 +80,7 @@ export function renderListView() {
           id="list-search-input" 
           class="form-input" 
           placeholder="${strings.listView.searchPlaceholder}" 
-          value="${appState.searchQuery}"
+          value="${esc(appState.searchQuery)}"
         />
       </div>
 
@@ -89,7 +90,7 @@ export function renderListView() {
         </option>
         ${appState.shelves.map(s => `
           <option value="${s.id}" ${s.id === appState.filterShelf ? 'selected' : ''}>
-            ${s.name}
+            ${esc(s.name)}
           </option>
         `).join('')}
       </select>
@@ -138,30 +139,30 @@ export function renderListView() {
                 <tr data-book-id="${book.id}">
                   <td>
                     ${coverUrl ? `
-                      <img src="${coverUrl}" alt="${book.title}" class="book-cover-thumb" loading="lazy" />
+                      <img src="${esc(coverUrl)}" alt="${esc(book.title)}" class="book-cover-thumb" loading="lazy" />
                     ` : `
                       <div class="book-cover-placeholder">📖</div>
                     `}
                   </td>
                   <td>
-                    <div class="book-title-cell">${book.title}</div>
-                    ${book.notes ? `<div style="font-size: 0.78rem; color: var(--text-subtle); margin-top: 2px;">${book.notes}</div>` : ''}
+                    <div class="book-title-cell">${esc(book.title)}</div>
+                    ${book.notes ? `<div style="font-size: 0.78rem; color: var(--text-subtle); margin-top: 2px;">${esc(book.notes)}</div>` : ''}
                   </td>
                   <td>
-                    <div class="book-author-cell">${book.author}</div>
+                    <div class="book-author-cell">${esc(book.author)}</div>
                   </td>
                   <td>
-                    <span class="badge badge-shelf">${shelf ? shelf.name : 'Unknown'}</span>
+                    <span class="badge badge-shelf">${shelf ? esc(shelf.name) : 'Unknown'}</span>
                   </td>
                   <td>
                     <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted);">
-                      ${book.isbn || '—'}
+                      ${esc(book.isbn) || '—'}
                     </span>
                   </td>
                   <td>
                     ${isLent ? `
                       <span class="badge badge-lent">
-                        ${t(strings.shelfOverlay.badgeLentTo, { name: book.lent_to || 'Someone' })}
+                        ${t(strings.shelfOverlay.badgeLentTo, { name: esc(book.lent_to || 'Someone') })}
                       </span>
                     ` : `
                       <span class="badge badge-available">

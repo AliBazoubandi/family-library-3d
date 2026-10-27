@@ -4,6 +4,7 @@ import { getBookCoverUrl, markBookLent, markBookReturned, deleteBook, updateBook
 import { openBookModal } from './bookForm.js';
 import { openShelfModal } from './shelfForm.js';
 import { showToast } from './toast.js';
+import { esc } from './utils.js';
 
 export function renderShelfOverlay(shelfId, onBack) {
   const container = document.getElementById('ui-overlay');
@@ -68,21 +69,21 @@ export function renderShelfOverlay(shelfId, onBack) {
         <div class="shelf-book-card" data-book-id="${book.id}">
           <div class="card-cover-wrapper">
             ${coverUrl ? `
-              <img src="${coverUrl}" alt="${book.title}" class="card-cover-img" loading="lazy" />
+              <img src="${esc(coverUrl)}" alt="${esc(book.title)}" class="card-cover-img" loading="lazy" />
             ` : `
               <div class="card-cover-placeholder">📖</div>
             `}
           </div>
 
           <div class="card-content">
-            <h4 class="card-title" title="${book.title}">${book.title}</h4>
-            <p class="card-author">${book.author}</p>
-            ${book.notes ? `<p class="card-notes">${book.notes}</p>` : ''}
+            <h4 class="card-title" title="${esc(book.title)}">${esc(book.title)}</h4>
+            <p class="card-author">${esc(book.author)}</p>
+            ${book.notes ? `<p class="card-notes">${esc(book.notes)}</p>` : ''}
 
             <div style="margin-top: auto; padding-top: 8px;">
               ${isLent ? `
                 <span class="badge badge-lent">
-                  ${t(strings.shelfOverlay.badgeLentTo, { name: book.lent_to || 'Someone' })}
+                  ${t(strings.shelfOverlay.badgeLentTo, { name: esc(book.lent_to || 'Someone') })}
                 </span>
               ` : `
                 <span class="badge badge-available">
@@ -130,7 +131,7 @@ export function renderShelfOverlay(shelfId, onBack) {
                   🗑
                 </button>
               ` : `
-                <span class="visitor-book-tag">📖 ${currentHouseUser.name}'s Collection (Read-only)</span>
+                <span class="visitor-book-tag">📖 ${esc(currentHouseUser.name)}'s Collection (Read-only)</span>
               `}
             </div>
           </div>
@@ -229,7 +230,7 @@ export function renderShelfOverlay(shelfId, onBack) {
             ${strings.shelfOverlay.backToRoom}
           </button>
           <div>
-            <h2 class="shelf-title">${shelf.name}</h2>
+            <h2 class="shelf-title">${esc(shelf.name)}</h2>
             <p class="shelf-sub">${shelfBooks.length} books on this shelf</p>
           </div>
         </div>
@@ -244,7 +245,7 @@ export function renderShelfOverlay(shelfId, onBack) {
             </button>
           ` : `
             <div class="visitor-mode-pill">
-              👁️ ${currentHouseUser.name}'s Shelf (Read Only)
+              👁️ ${esc(currentHouseUser.name)}'s Shelf (Read Only)
             </div>
           `}
         </div>

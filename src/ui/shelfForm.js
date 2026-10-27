@@ -2,6 +2,7 @@ import { strings, t } from '../strings.js';
 import { appState } from '../state.js';
 import { createShelf, updateShelf, deleteShelf } from '../api/books.js';
 import { showToast } from './toast.js';
+import { esc } from './utils.js';
 
 export function openShelfModal(shelfToEdit = null) {
   const modalRoot = document.getElementById('modal-root');
@@ -35,7 +36,7 @@ export function openShelfModal(shelfToEdit = null) {
             class="form-input" 
             required 
             placeholder="e.g. Science Fiction" 
-            value="${shelfToEdit?.name || ''}"
+            value="${esc(shelfToEdit?.name || '')}"
           />
         </div>
 
@@ -47,7 +48,7 @@ export function openShelfModal(shelfToEdit = null) {
             class="form-input" 
             required 
             placeholder="e.g. scifi" 
-            value="${shelfToEdit?.category || ''}"
+            value="${esc(shelfToEdit?.category || '')}"
           />
         </div>
 
@@ -57,7 +58,7 @@ export function openShelfModal(shelfToEdit = null) {
             type="number" 
             id="shelf-order" 
             class="form-input" 
-            value="${shelfToEdit?.sort_order ?? (appState.shelves.length + 1)}"
+            value="${esc(shelfToEdit?.sort_order ?? (appState.shelves.length + 1))}"
           />
         </div>
 

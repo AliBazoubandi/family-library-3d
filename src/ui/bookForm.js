@@ -3,6 +3,7 @@ import { appState } from '../state.js';
 import { createBook, updateBook, deleteBook, getBookCoverUrl } from '../api/books.js';
 import { lookupIsbn } from '../api/openLibrary.js';
 import { showToast } from './toast.js';
+import { esc } from './utils.js';
 
 export function openBookModal(bookToEdit = null, defaultShelfId = null) {
   const modalRoot = document.getElementById('modal-root');
@@ -39,7 +40,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
               id="book-isbn" 
               class="form-input" 
               placeholder="e.g. 9780156012195" 
-              value="${bookToEdit?.isbn || ''}"
+              value="${esc(bookToEdit?.isbn || '')}"
             />
             <button type="button" id="isbn-lookup-btn" class="btn btn-secondary" style="font-size: 0.8rem;">
               ${strings.bookForm.lookupIsbn}
@@ -57,7 +58,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
             id="book-title" 
             class="form-input" 
             required 
-            value="${bookToEdit?.title || ''}"
+            value="${esc(bookToEdit?.title || '')}"
           />
         </div>
 
@@ -68,7 +69,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
             id="book-author" 
             class="form-input" 
             required 
-            value="${bookToEdit?.author || ''}"
+            value="${esc(bookToEdit?.author || '')}"
           />
         </div>
 
@@ -77,7 +78,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
           <select id="book-shelf" class="form-select" required>
             ${appState.shelves.map(s => `
               <option value="${s.id}" ${s.id === activeShelfId ? 'selected' : ''}>
-                ${s.name}
+                ${esc(s.name)}
               </option>
             `).join('')}
           </select>
@@ -90,7 +91,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
             id="book-cover-url" 
             class="form-input" 
             placeholder="https://..." 
-            value="${bookToEdit?.cover_url || ''}"
+            value="${esc(bookToEdit?.cover_url || '')}"
           />
         </div>
 
@@ -106,7 +107,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
 
         <div class="form-group">
           <label class="form-label" for="book-notes">${strings.bookForm.notesLabel}</label>
-          <textarea id="book-notes" class="form-textarea" placeholder="Personal notes, quotes, or thoughts...">${bookToEdit?.notes || ''}</textarea>
+          <textarea id="book-notes" class="form-textarea" placeholder="Personal notes, quotes, or thoughts...">${esc(bookToEdit?.notes || '')}</textarea>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -125,7 +126,7 @@ export function openBookModal(bookToEdit = null, defaultShelfId = null) {
               id="book-lent-to" 
               class="form-input" 
               placeholder="e.g. Sarah" 
-              value="${bookToEdit?.lent_to || ''}"
+              value="${esc(bookToEdit?.lent_to || '')}"
             />
           </div>
         </div>
